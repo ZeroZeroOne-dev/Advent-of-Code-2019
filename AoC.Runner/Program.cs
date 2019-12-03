@@ -1,5 +1,5 @@
 ﻿using System;
-using AoC.Solutions.Days.One;
+using AoC.Solutions.Days.Two;
 
 namespace AoC.Runner
 {
@@ -7,7 +7,7 @@ namespace AoC.Runner
     {
         static void Main(string[] args)
         {
-            var solution = new FuelCalculator();
+            var solution = new OpCodeRunner();
             var output = solution.Solve();
 
             Console.WriteLine($"the output is {output}");
