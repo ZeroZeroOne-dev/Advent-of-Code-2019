@@ -8,6 +8,9 @@
     <Content Include="Days\1\input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>  
+    <Content Include="Days\3\input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>  
   </ItemGroup>
 
 </Project>
