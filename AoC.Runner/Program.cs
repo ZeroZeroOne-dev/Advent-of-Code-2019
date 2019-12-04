@@ -1,5 +1,5 @@
 ﻿using System;
-using AoC.Solutions.Days.Three;
+using AoC.Solutions.Days.Four;
 
 namespace AoC.Runner
 {
@@ -7,7 +7,7 @@ namespace AoC.Runner
     {
         static void Main(string[] args)
         {
-            var solution = new ManhattanSolver();
+            var solution = new Day4Solution();
             var output = solution.Solve();
 
             Console.WriteLine($"the output is {output}");
