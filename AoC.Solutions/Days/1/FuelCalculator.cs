@@ -8,10 +8,23 @@ namespace AoC.Solutions.Days.One
     {
         public int Calculate(int mass)
         {
-            // When you divide two integers, C# divides like a child in the third grade: it throws away any fractional remainder -> no rounding needed
+            var fuel = GetMassFuel(mass);
 
-            return mass / 3 - 2;
+            if (fuel > 0)
+            {
+                return fuel + Calculate(fuel);
+            }
+
+            if (fuel < 0)
+            {
+                fuel = 0;
+            }
+
+            return fuel;
         }
+
+        // When you divide two integers, C# divides like a child in the third grade: it throws away any fractional remainder -> no rounding needed
+        private int GetMassFuel(int mass) => mass / 3 - 2;
 
         public int CalculateFromFile(string file)
         {
