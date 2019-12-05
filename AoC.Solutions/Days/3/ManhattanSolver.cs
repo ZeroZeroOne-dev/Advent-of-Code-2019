@@ -6,22 +6,14 @@ using System.Reflection;
 
 namespace AoC.Solutions.Days.Three
 {
-    public class ManhattanSolver : ISolution
+    public class ManhattanSolver
     {
         public int GetClosestIntersectionDistance(string[] firstPath, string[] secondPath)
         {
-            var visitedPoints = new Dictionary<Point, Paths>();
-
-            AddPathToDictionary(visitedPoints, firstPath, Paths.FirstPath);
-            AddPathToDictionary(visitedPoints, secondPath, Paths.SecondPath);
-
-            var intersections = visitedPoints
-                .Where(kv =>
-                    kv.Value.HasFlag(Paths.FirstPath) &&
-                    kv.Value.HasFlag(Paths.SecondPath))
-                .Select(kv => kv.Key);
+            var intersections = GetIntersections(firstPath, secondPath);
 
             var shortest = intersections
+                .Select(kv => kv.Key)
                 .Select(p => Math.Abs(p.X) + Math.Abs(p.Y))
                 .OrderBy(l => l)
                 .First();
@@ -29,13 +21,39 @@ namespace AoC.Solutions.Days.Three
             return shortest;
         }
 
-        private void AddPathToDictionary(Dictionary<Point, Paths> visitedPoints, string[] path, Paths pathName)
+        // part 2
+        public int GetStepsFewestCombinedIntersection(string[] firstPath, string[] secondPath)
+        {
+            var intersections = GetIntersections(firstPath, secondPath);
+
+            var shortest = intersections.Select(kv => kv.Value.Sum(v => v.Steps)).OrderBy(kv => kv).First();
+
+            return shortest;
+        }
+
+        private IEnumerable<KeyValuePair<Point, List<PointVisit>>> GetIntersections(string[] firstPath, string[] secondPath)
+        {
+            var visitedPoints = new Dictionary<Point, List<PointVisit>>();
+
+            AddPathToDictionary(visitedPoints, firstPath, Paths.FirstPath);
+            AddPathToDictionary(visitedPoints, secondPath, Paths.SecondPath);
+
+            var intersections = visitedPoints
+                .Where(kv => kv.Value.Any(v => v.Visitor == Paths.FirstPath))
+                .Where(kv => kv.Value.Any(v => v.Visitor == Paths.SecondPath));
+
+            return intersections;
+        }
+
+        private void AddPathToDictionary(Dictionary<Point, List<PointVisit>> visitedPoints, string[] path, Paths pathName)
         {
             var current = new Point
             {
                 X = 0,
                 Y = 0
             };
+
+            var walkedDistance = 0;
 
             foreach (var actionAndDistance in path)
             {
@@ -44,15 +62,25 @@ namespace AoC.Solutions.Days.Three
 
                 for (int i = 0; i < distance; i++)
                 {
+                    walkedDistance++;
                     DoAction(ref current, actionCharacter);
 
                     if (visitedPoints.TryGetValue(current, out var visits))
                     {
-                        visitedPoints[current] = visits | pathName;
+                        visitedPoints[current].Add(new PointVisit
+                        {
+                            Visitor = pathName,
+                            Steps = walkedDistance
+                        });
                     }
                     else
                     {
-                        visitedPoints[current] = pathName;
+                        visitedPoints[current] = new List<PointVisit>{
+                            new PointVisit{
+                                Visitor = pathName,
+                                Steps = walkedDistance
+                            }
+                        };
                     }
                 }
             }
@@ -85,25 +113,18 @@ namespace AoC.Solutions.Days.Three
             public int Y { get; set; }
         }
 
-        [Flags]
+        private struct PointVisit
+        {
+            public Paths Visitor { get; set; }
+            public int Steps { get; set; }
+        }
+
         private enum Paths
         {
             FirstPath = 1,
             SecondPath = 2,
         }
 
-        public string Solve()
-        {
-            var file = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "days/3/input.txt");
 
-            var lines = File.ReadAllLines(file);
-
-            var firstPath = lines[0].Split(',');
-            var secondPath = lines[1].Split(',');
-
-            var result = GetClosestIntersectionDistance(firstPath, secondPath);
-
-            return result.ToString();
-        }
     }
 }

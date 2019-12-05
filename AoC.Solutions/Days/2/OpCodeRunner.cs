@@ -38,6 +38,7 @@ namespace AoC.Solutions.Days.Two
             return program;
         }
 
+        // part 2
         public int FindNounAndVerb(int[] input, int toFind)
         {
             for (int noun = 0; noun <= 99; noun++)
