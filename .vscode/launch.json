@@ -12,7 +12,7 @@
             "program": "${workspaceFolder}/AoC.Runner/bin/Debug/netcoreapp2.2/AoC.Runner.dll",
             "args": [],
             "cwd": "${workspaceFolder}/AoC.Runner",
-            "console": "internalConsole",
+            "console": "externalTerminal",
             "stopAtEntry": false
         },
         {
