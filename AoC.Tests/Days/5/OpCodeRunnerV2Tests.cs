@@ -13,8 +13,9 @@ namespace AoC.Tests.Days.Five
         }
 
         [Theory]
-        [InlineData(new[] { 1002, 4, 3, 4, 33 }, new[] { 1002, 4, 3, 4, 99 })]
-        [InlineData(new[] { 1001, 4, 3, 4, 33 }, new[] { 1001, 4, 3, 4, 36 })]
+        //[InlineData(new[] { 1002, 4, 3, 4, 33 }, new[] { 1002, 4, 3, 4, 99 })]
+        //[InlineData(new[] { 1001, 4, 3, 4, 33 }, new[] { 1001, 4, 3, 4, 36 })]
+        [InlineData(new[] { 1105, 1, 3, 99 }, new[] { 1105, 1, 3, 99 })]
         public void Can_Run_Program(int[] input, int[] expected)
         {
             var result = this.runner.Run(input);
